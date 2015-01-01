@@ -1,0 +1,134 @@
+<?php
+/**
+ * @file
+ *   CRUD for mySql
+*/
+
+function CRUD_content_menu() {
+  $items = array();
+
+  $items['admin/content/bibleIndex'] = array(
+    'title' => 'מפתוח התנ"ך',
+    'description' => 'מפתוח התנ"ך',
+    'page callback' => 'bible_index_add',
+    'access arguments' => array('administer bibleIndex'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 20,
+  );
+  
+  $items['admin/content/bibleIndex/add'] = array(
+    'title' => 'הוספה',
+    'description' => 'הוספה למפתוח התנ"ך',
+    'page callback' => 'bible_index_add',
+    'access arguments' => array('administer bibleIndex'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 20,
+  );
+  
+  $items['admin/content/bibleIndex/edit'] = array(
+    'title' => 'עריכה',
+    'description' => 'עריכת מפתוח התנ"ך',
+    'page callback' => 'bible_index_edit_test',
+    'access arguments' => array('administer bibleIndex'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 20,
+  );
+  
+  return $items;
+}
+
+function bible_index_add() {
+
+  //$output = '<div class="item-list">';
+  
+  return "test";
+}
+
+function bible_index_edit_test() {
+    
+    $index = new index();
+    $cursor = $index->select(array("levels"=> array('$exists' => true)));
+    
+    foreach ( $cursor as $id => $value ){
+        $output = $index->toString(( isset($value['levels'][3]) ? ($value['levels'][3]) : null ));
+    }
+
+    return ($output);
+}
+
+function get_row_table($data) {
+    $row = null;
+    
+    if(isset($data)){
+        $row = array( 
+            ($data['level_count']), 
+            ($data['from']['chapter']), 
+            ($data['from']['verse']),
+            (l("עריכה", "admin/content/bibleIndex/edit/$node->id")),
+        );
+    }
+    return $row;
+}
+
+
+function bible_index_edit() {
+
+	$header = array(t('אינדקס'), t('רמה'), t('מספר'), t('מפרק'), t('מפסוק'), t('עד ספר'), t('עד פרק'), t('עד פסוק'), t('חטיבה'), t('יחידה'), t('יחידת משנה'), t('פירוט'), t('יחידת פירוט נוספת'), t('רמה שישית'), t('נושאים'), t('מקומות'), t('דמויות'), t('מושגים'), t('מילות מפתח'), t('תקופות'), t('אירועים'), t('הערות'), t('עריכה'));
+	
+    $query = db_select('Bible_keying', 'c')
+        ->fields('c')
+        ->execute();
+	
+	foreach ($query as $node) {
+    	$rows[] = array(
+            ($node->id), 
+            ($node->level), 
+            ($node->index_start_book), 
+            ($node->index_start_chapter), 
+            ($node->index_start_verse), 
+            ($node->index_end_book), 
+            ($node->index_end_chapter), 
+            ($node->index_end_verse), 
+            ($node->level1), 
+            ($node->level2), 
+            ($node->level3), 
+            ($node->level4), 
+            ($node->level5), 
+            ($node->level6), 
+            ($node->topics), 
+            ($node->places), 
+            ($node->characters), 
+            ($node->concepts), 
+            ($node->keywords),
+            ($node->periods),
+            ($node->events),
+            ($node->others),
+            (l("עריכה", "admin/content/bibleIndex/edit/$node->id")),
+    	);
+  	}
+	
+	$table = array(
+    	'#theme' => 'table',
+    	'#header' => $header,
+        '#rows' => $rows,
+        '#attributes' => array('id' => "CRUD_table"),
+		'#empty' => "טבלה ריקה",
+  	);
+    
+    return $table;
+}
+
+/*foreach ($query as $node) {
+        $rows[] = array(
+            ($node->id ? $node->id : 'NULL'),
+            ($node->index_start_book ? $node->index_start_book : 'NULL'),
+            ($node->level ? l($node->level, "node/$node->id") : t('Missing data for node @id', array('@id' => $node->id))),
+        );
+    }*/
+
+
+
+
+
+
+

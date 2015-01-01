@@ -1,0 +1,10 @@
+<?php
+/**
+ * @file
+ *  connection between Drupal and MongoDB.
+*/
+
+//$index = new index();
+//echo $index->toString($index->select(array('heTitle' => 'בראשית')));
+//$index->remove(array());
+

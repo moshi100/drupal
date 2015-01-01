@@ -1,0 +1,12 @@
+name = MongoDB Connection
+description = Integration between Drupal and MongoDB.
+package = MongoDB
+version = "7.0"
+core = 7.x
+
+files[] = classes/connectMongo.class.php
+
+files[] = classes/collection.class.php
+files[] = classes/commentary.class.php
+files[] = classes/book.class.php
+files[] = classes/index.class.php

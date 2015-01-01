@@ -1,0 +1,6 @@
+name = Bible
+description = Display the bible from mongoDB
+package = Bible Modules
+dependencies[] = mongoDB_Connection
+core = 7.x
+php = 5.3.9

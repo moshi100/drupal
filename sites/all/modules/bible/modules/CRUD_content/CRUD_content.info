@@ -1,0 +1,5 @@
+name = CRUD content
+description = מציג נתונים בצורה טבלאית עם אפשרויות עריכה
+package = Bible Modules
+dependencies[] = mongoDB_Connection
+core = 7.x
